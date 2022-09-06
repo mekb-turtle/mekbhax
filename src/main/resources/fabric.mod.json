@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "mekbhax",
+  "version": "${version}",
+
+  "name": "mekbhax",
+  "description": "Cheat mod for Fabric",
+  "authors": [
+    "mekb (mekb1@icloud.com)"
+  ],
+  "contact": {
+    "homepage": "https://mekb.tech/",
+    "sources": "https://github.com/mekb-turtle/mekbhax"
+  },
+
+  "icon": "assets/mekbhax/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "tech.mekb.mekbhax.Main"
+    ]
+  },
+  "mixins": [
+    "mekbhax.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  }
+}
