@@ -39,8 +39,18 @@ public abstract class TickMixin extends Entity {
 					fullBrightEnabled = false;
 				} else {
 					originalGamma = mc.options.getGamma().getValue();
-					mc.options.getGamma().setValue(fullbrightGamma);
+					mc.options.getGamma().setValue(fullBrightGamma);
 					fullBrightEnabled = true;
+				}
+			}
+			if (stepBind.wasPressed()) {
+				if (stepEnabled) {
+					this.stepHeight = originalStep;
+					stepEnabled = false;
+				} else {
+					originalStep = this.stepHeight;
+					this.stepHeight = 1.0f;
+					stepEnabled = true;
 				}
 			}
 			if (Main.speedEnabled || Main.flyEnabled) {
