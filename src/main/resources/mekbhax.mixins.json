@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "BoatFlyMixin"
+    "TickMixin",
+    "HudRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
