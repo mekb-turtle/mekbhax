@@ -1,25 +1,33 @@
 package tech.mekb.mekbhax.mixin;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tech.mekb.mekbhax.Main;
 
 import static tech.mekb.mekbhax.Main.*;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class TickMixin extends Entity {
-	private static final double speedH = 1.0;
+	private static final double speedH = 0.6;
 	private static final double speedV = 0.5;
 	private static final double speedB = 0.1;
+	private static final double sprintMul = 2.0f;
 
 	public TickMixin(EntityType<?> type, World world) {
 		super(type, world);
@@ -35,6 +43,7 @@ public abstract class TickMixin extends Entity {
 			if (xrayBind.wasPressed())       xrayEnabled       = !xrayEnabled;
 			if (fullBrightBind.wasPressed()) {
 				if (fullBrightEnabled) {
+					// set back to original value
 					mc.options.getGamma().setValue(originalGamma);
 					fullBrightEnabled = false;
 				} else {
@@ -43,48 +52,65 @@ public abstract class TickMixin extends Entity {
 					fullBrightEnabled = true;
 				}
 			}
+			if (fullBrightEnabled && mc.options.getGamma().getValue() < fullBrightGamma) {
+				// just in case user sets it manually back
+				fullBrightEnabled = false;
+			}
 			if (stepBind.wasPressed()) {
 				if (stepEnabled) {
+					// set back to original value
 					this.stepHeight = originalStep;
 					stepEnabled = false;
 				} else {
 					originalStep = this.stepHeight;
-					this.stepHeight = 1.0f;
 					stepEnabled = true;
 				}
+			}
+			if (stepEnabled) {
+				this.stepHeight = 1.0f;
 			}
 			if (Main.speedEnabled || Main.flyEnabled) {
 				GameOptions go = mc.options;
 				++tick;
 				tick %= 40;
-				Entity e = this;
-				if (e.hasVehicle()) {
-					e = e.getVehicle();
+				Entity entityToMove = this;
+				Entity faceEntity = this;
+				boolean boat = false;
+				if (this.hasVehicle()) {
+					entityToMove = this.getVehicle();
+					if (entityToMove.getType() == EntityType.BOAT || entityToMove.getType() == EntityType.CHEST_BOAT) {
+						// don't move sideways in boat since it turns normally
+						boat = true;
+						faceEntity = entityToMove;
+					}
 				}
-				assert e != null;
+				assert entityToMove != null;
+				assert faceEntity != null;
 				boolean kw = go.forwardKey.isPressed();
-				boolean ka = go.leftKey.isPressed();
+				boolean ka = !boat && go.leftKey.isPressed();
 				boolean ks = go.backKey.isPressed();
-				boolean kd = go.rightKey.isPressed();
+				boolean kd = !boat && go.rightKey.isPressed();
 				if (kw && ks) kw = ks = false;
 				if (ka && kd) ka = kd = false;
 				double x = 0;
 				double z = 0;
+				double sprintMul_ = go.sprintKey.isPressed() ? sprintMul : 1.0f;
 				if (kw || ka || ks || kd) {
-					Vec3d vp = this.getRotationVector();
+					Vec3d vp = faceEntity.getRotationVector();
 					double t = Math.atan2(vp.z, vp.x) + Math.atan2(kd?1:ka?-1:0, kw?1:ks?-1:0);
-					x = Math.cos(t) * speedH;
-					z = Math.sin(t) * speedH;
+					x = Math.cos(t) * speedH * sprintMul_;
+					z = Math.sin(t) * speedH * sprintMul_;
 				}
-				double y = e.getVelocity().y;
+				double y = entityToMove.getVelocity().y;
 				if (Main.flyEnabled) {
 					y = 0;
-					if (go.jumpKey.isPressed()) y += speedV;
-					if (go.sprintKey.isPressed()) y -= speedV;
+					// extra keybinds for ascend and descend since sneak will dismount if we're in a boat
+					if (go.jumpKey.isPressed() || flyAscendBind.isPressed()) y += speedV * sprintMul_;
+					if (go.sneakKey.isPressed() || flyDescendBind.isPressed()) y -= speedV * sprintMul_;
 					if (tick >= 0 && tick < 4) y -= speedB;
 					if (tick >= 4 && tick < 8) y += speedB;
 				}
-				e.setVelocity(new Vec3d(x, y, z));
+				entityToMove.setVelocity(new Vec3d(x, y, z));
 			}
 		} catch (Exception e) {
 			Logger.error(e.getMessage());

@@ -14,17 +14,18 @@ import static tech.mekb.mekbhax.Main.*;
 public class HudRenderMixin {
     @Inject(method = "render", at = @At("RETURN"), cancellable = true)
     public void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
+        // show enabled hacks
         if (flyEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFly",         5, 16*0+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFly",         12, 12*1, -1);
         if (speedEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aSpeed",       5, 16*1+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aSpeed",       12, 12*2, -1);
         if (noFallEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aNo Fall",     5, 16*2+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aNo Fall",     12, 12*3, -1);
         if (stepEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aStep",        5, 16*2+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aStep",        12, 12*4, -1);
         if (xrayEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aX-Ray",       5, 16*3+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aX-Ray",       12, 12*5, -1);
         if (fullBrightEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFull-Bright", 5, 16*4+5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFull-Bright", 12, 12*6, -1);
     }
 }

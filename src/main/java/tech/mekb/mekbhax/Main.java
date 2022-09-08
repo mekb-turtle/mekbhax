@@ -19,12 +19,15 @@ public class Main implements ModInitializer {
 	public static double originalGamma;
 	public static final double fullBrightGamma = 10;
 	public static int tick = 0;
-	public static KeyBinding flyBind        = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fly",        InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.mekbhax"));
-	public static KeyBinding speedBind      = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.speed",      InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, "category.mekbhax"));
-	public static KeyBinding noFallBind     = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.nofall",     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "category.mekbhax"));
-	public static KeyBinding stepBind       = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.step",       InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, "category.mekbhax"));
-	public static KeyBinding xrayBind       = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.xray",       InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, "category.mekbhax"));
-	public static KeyBinding fullBrightBind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fullbright", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U, "category.mekbhax"));
+	private static final String bindCategory = "category.mekbhax";
+	public static KeyBinding flyBind        = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fly",        InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G,    bindCategory));
+	public static KeyBinding speedBind      = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.speed",      InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H,    bindCategory));
+	public static KeyBinding noFallBind     = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.nofall",     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J,    bindCategory));
+	public static KeyBinding stepBind       = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.step",       InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I,    bindCategory));
+	public static KeyBinding xrayBind       = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.xray",       InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y,    bindCategory));
+	public static KeyBinding fullBrightBind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fullbright", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U,    bindCategory));
+	public static KeyBinding flyAscendBind  = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.ascend",     InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UP,   bindCategory));
+	public static KeyBinding flyDescendBind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.descend",    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, bindCategory));
 	public static final Logger Logger = LoggerFactory.getLogger("mekbhax");
 	@Override
 	public void onInitialize() {
