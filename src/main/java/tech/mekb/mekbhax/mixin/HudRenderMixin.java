@@ -20,23 +20,24 @@ public class HudRenderMixin {
         MinecraftClient mc = MinecraftClient.getInstance();
         TextRenderer r = mc.textRenderer;
         int h = r.fontHeight;
+        int i = 0;
         // show enabled hacks
         String speedText = faster ? " (Faster)" : fast ? " (Fast)" : slow ? " (Slow)" : slower ? " (Slower)" : "";
         if (flyEnabled)
-            r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, y+h*0, -1);
+            r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, y+(h++), -1);
         if (speedEnabled)
-            r.drawWithShadow(matrices, "§aSpeed§7"    + speedText, x, y+h*1, -1);
+            r.drawWithShadow(matrices, "§aSpeed§7"    + speedText, x, y+(h++), -1);
         if (freeCamEnabled)
-            r.drawWithShadow(matrices, "§aFree-Cam§7" + speedText, x, y+h*2, -1);
+            r.drawWithShadow(matrices, "§aFree-Cam§7" + speedText, x, y+(h++), -1);
         if (noFallEnabled)
-            r.drawWithShadow(matrices, "§aNo Fall",                x, y+h*3, -1);
+            r.drawWithShadow(matrices, "§aNo Fall",                x, y+(h++), -1);
         if (stepEnabled)
-            r.drawWithShadow(matrices, "§aStep",                   x, y+h*4, -1);
+            r.drawWithShadow(matrices, "§aStep",                   x, y+(h++), -1);
         if (xrayEnabled)
-            r.drawWithShadow(matrices, "§aX-Ray",                  x, y+h*5, -1);
+            r.drawWithShadow(matrices, "§aX-Ray",                  x, y+(h++), -1);
         if (fullBrightEnabled)
-            r.drawWithShadow(matrices, "§aFull-Bright",            x, y+h*6, -1);
+            r.drawWithShadow(matrices, "§aFull-Bright",            x, y+(h++), -1);
         if (antiEffectEnabled)
-            r.drawWithShadow(matrices, "§aAnti-Effect",            x, y+h*2, -1);
+            r.drawWithShadow(matrices, "§aAnti-Effect",            x, y+(h++), -1);
     }
 }
