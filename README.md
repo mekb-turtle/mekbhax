@@ -1,9 +1,16 @@
-# Fabric Example Mod
+# mekbhax
 
-## Setup
+### Cheat mod in Fabric
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+[![build](https://github.com/mekb-turtle/mekbhax/actions/workflows/build.yml/badge.svg)](https://github.com/mekb-turtle/mekbhax/actions/workflows/build.yml)
 
-## License
+Hacks:
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+|   Hack      | Key |    Note    |
+|-------------|-----|------------|
+| Fly         |  G  | Same as Speed but also has vertical too |
+| Speed       |  H  | <ul><li>LEFT to go slower</li><li>RIGHT to go faster</li><li>Jump or UP to ascend</li><li>Sneak or DOWN to descend</li></ul> |
+| No Fall     |  U  | |
+| Step        |  J  | Instantly step up blocks |
+| X-Ray       |  O  | Not implemented yet |
+| Full Bright |  O  | |
