@@ -14,7 +14,7 @@ import tech.mekb.mekbhax.Main;
 public class PacketMixin {
     @ModifyVariable(at = @At("HEAD"), method = "sendInternal", ordinal = 0, argsOnly = true)
     public Packet<?> sendInternal(Packet<?> packet) {
-        // no fall
+        // no fall by https://github.com/CallMeEcho
         if (Main.noFallEnabled) {
             if (packet instanceof PlayerMoveC2SPacket.Full || packet instanceof PlayerMoveC2SPacket.OnGroundOnly || packet instanceof PlayerMoveC2SPacket.PositionAndOnGround) {
                 ClientPlayerEntity player = MinecraftClient.getInstance().player;

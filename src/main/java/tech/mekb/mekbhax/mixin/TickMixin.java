@@ -1,23 +1,16 @@
 package tech.mekb.mekbhax.mixin;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.SimpleOption;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tech.mekb.mekbhax.Main;
 
 import static tech.mekb.mekbhax.Main.*;
@@ -27,7 +20,8 @@ public abstract class TickMixin extends Entity {
 	private static final double speedH = 0.6;
 	private static final double speedV = 0.5;
 	private static final double speedB = 0.1;
-	private static final double sprintMul = 2.0f;
+	private static final double fastMul = 2.0f;
+	private static final double slowMul = 0.35f;
 
 	public TickMixin(EntityType<?> type, World world) {
 		super(type, world);
@@ -41,6 +35,14 @@ public abstract class TickMixin extends Entity {
 			if (speedBind.wasPressed())      speedEnabled      = !speedEnabled;
 			if (noFallBind.wasPressed())     noFallEnabled     = !noFallEnabled;
 			if (xrayBind.wasPressed())       xrayEnabled       = !xrayEnabled;
+			if (fastBind.wasPressed()) {
+				fast = !fast;
+				slow = false;
+			}
+			if (slowBind.wasPressed()) {
+				slow = !slow;
+				fast = false;
+			}
 			if (fullBrightBind.wasPressed()) {
 				if (fullBrightEnabled) {
 					// set back to original value
@@ -94,10 +96,11 @@ public abstract class TickMixin extends Entity {
 				if (ka && kd) ka = kd = false;
 				double x = 0;
 				double z = 0;
-				double sprintMul_ = go.sprintKey.isPressed() ? sprintMul : 1.0f;
+				double sprintMul_ = 1.0;
+				if (fast) sprintMul_ *= fastMul;
+				if (slow) sprintMul_ *= slowMul;
 				if (kw || ka || ks || kd) {
-					Vec3d vp = faceEntity.getRotationVector();
-					double t = Math.atan2(vp.z, vp.x) + Math.atan2(kd?1:ka?-1:0, kw?1:ks?-1:0);
+					double t = (faceEntity.getYaw() / 180.0 * Math.PI) + Math.atan2(kw?1:ks?-1:0, ka?1:kd?-1:0);
 					x = Math.cos(t) * speedH * sprintMul_;
 					z = Math.sin(t) * speedH * sprintMul_;
 				}

@@ -15,17 +15,18 @@ public class HudRenderMixin {
     @Inject(method = "render", at = @At("RETURN"), cancellable = true)
     public void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
         // show enabled hacks
+        String speedText = fast ? " (Fast)" : slow ? " (Slow)" : "";
         if (flyEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFly",         12, 12*1, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFly§7"+speedText,   12, 12*1, -1);
         if (speedEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aSpeed",       12, 12*2, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aSpeed§7"+speedText, 12, 12*2, -1);
         if (noFallEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aNo Fall",     12, 12*3, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aNo Fall",           12, 12*3, -1);
         if (stepEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aStep",        12, 12*4, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aStep",              12, 12*4, -1);
         if (xrayEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aX-Ray",       12, 12*5, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aX-Ray",             12, 12*5, -1);
         if (fullBrightEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFull-Bright", 12, 12*6, -1);
+            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFull-Bright",       12, 12*6, -1);
     }
 }
