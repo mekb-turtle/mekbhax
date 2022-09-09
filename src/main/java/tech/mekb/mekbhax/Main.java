@@ -17,8 +17,10 @@ public class Main implements ModInitializer {
 	public static boolean fullBrightEnabled = false;
 	public static float originalStep;
 	public static double originalGamma;
-	public static boolean slow = false;
-	public static boolean fast = false;
+    public static boolean fast   = false;
+    public static boolean faster = false;
+	public static boolean slow   = false;
+	public static boolean slower = false;
 	public static final double fullBrightGamma = 10;
 	public static int tick = 0;
 	private static final String bindCategory = "category.mekbhax";

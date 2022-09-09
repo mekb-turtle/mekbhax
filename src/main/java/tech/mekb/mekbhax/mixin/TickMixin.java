@@ -21,7 +21,9 @@ public abstract class TickMixin extends Entity {
 	private static final double speedV = 0.5;
 	private static final double speedB = 0.1;
 	private static final double fastMul = 2.0f;
+	private static final double fasterMul = 5.0f;
 	private static final double slowMul = 0.35f;
+	private static final double slowerMul = 0.1f;
 
 	public TickMixin(EntityType<?> type, World world) {
 		super(type, world);
@@ -36,11 +38,27 @@ public abstract class TickMixin extends Entity {
 			if (noFallBind.wasPressed())     noFallEnabled     = !noFallEnabled;
 			if (xrayBind.wasPressed())       xrayEnabled       = !xrayEnabled;
 			if (fastBind.wasPressed()) {
-				fast = !fast;
+				if (faster) {
+					fast = false;
+					faster = false;
+				} else if (fast) {
+					faster = true;
+					fast = false;
+				} else {
+					fast = true;
+				}
 				slow = false;
 			}
 			if (slowBind.wasPressed()) {
-				slow = !slow;
+				if (slower) {
+					slow = false;
+					slower = false;
+				} else if (slow) {
+					slower = true;
+					slow = false;
+				} else {
+					slow = true;
+				}
 				fast = false;
 			}
 			if (fullBrightBind.wasPressed()) {
@@ -97,8 +115,10 @@ public abstract class TickMixin extends Entity {
 				double x = 0;
 				double z = 0;
 				double sprintMul_ = 1.0;
-				if (fast) sprintMul_ *= fastMul;
-				if (slow) sprintMul_ *= slowMul;
+				if (fast)   sprintMul_ *= fastMul;
+				if (faster) sprintMul_ *= fasterMul;
+				if (slow)   sprintMul_ *= slowMul;
+				if (slower) sprintMul_ *= slowerMul;
 				if (kw || ka || ks || kd) {
 					double t = (faceEntity.getYaw() / 180.0 * Math.PI) + Math.atan2(kw?1:ks?-1:0, ka?1:kd?-1:0);
 					x = Math.cos(t) * speedH * sprintMul_;
