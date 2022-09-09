@@ -1,6 +1,7 @@
 package tech.mekb.mekbhax.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,21 +13,30 @@ import static tech.mekb.mekbhax.Main.*;
 
 @Mixin(InGameHud.class)
 public class HudRenderMixin {
-    @Inject(method = "render", at = @At("RETURN"), cancellable = true)
+    private static final int x = 12;
+    private static final int y = 12;
+    @Inject(method = "render", at = @At("RETURN"))
     public void onRender(MatrixStack matrices, float tickDelta, CallbackInfo info) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        TextRenderer r = mc.textRenderer;
+        int h = r.fontHeight;
         // show enabled hacks
-        String speedText = fast ? " (Fast)" : slow ? " (Slow)" : "";
+        String speedText = faster ? " (Faster)" : fast ? " (Fast)" : slow ? " (Slow)" : slower ? " (Slower)" : "";
         if (flyEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFly§7"+speedText,   12, 12*1, -1);
+            r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, y+h*0, -1);
         if (speedEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aSpeed§7"+speedText, 12, 12*2, -1);
+            r.drawWithShadow(matrices, "§aSpeed§7"    + speedText, x, y+h*1, -1);
+        if (freeCamEnabled)
+            r.drawWithShadow(matrices, "§aFree-Cam§7" + speedText, x, y+h*2, -1);
         if (noFallEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aNo Fall",           12, 12*3, -1);
+            r.drawWithShadow(matrices, "§aNo Fall",                x, y+h*3, -1);
         if (stepEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aStep",              12, 12*4, -1);
+            r.drawWithShadow(matrices, "§aStep",                   x, y+h*4, -1);
         if (xrayEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aX-Ray",             12, 12*5, -1);
+            r.drawWithShadow(matrices, "§aX-Ray",                  x, y+h*5, -1);
         if (fullBrightEnabled)
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, "§aFull-Bright",       12, 12*6, -1);
+            r.drawWithShadow(matrices, "§aFull-Bright",            x, y+h*6, -1);
+        if (antiEffectEnabled)
+            r.drawWithShadow(matrices, "§aAnti-Effect",            x, y+h*2, -1);
     }
 }

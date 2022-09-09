@@ -5,6 +5,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,10 +35,17 @@ public abstract class TickMixin extends Entity {
 	private void tick(CallbackInfo info) {
 		try {
 			MinecraftClient mc = MinecraftClient.getInstance();
-			if (flyBind.wasPressed())        flyEnabled        = !flyEnabled;
-			if (speedBind.wasPressed())      speedEnabled      = !speedEnabled;
-			if (noFallBind.wasPressed())     noFallEnabled     = !noFallEnabled;
-			if (xrayBind.wasPressed())       xrayEnabled       = !xrayEnabled;
+			if (flyBind       .wasPressed()) flyEnabled        = !flyEnabled;
+			if (speedBind     .wasPressed()) speedEnabled      = !speedEnabled;
+			if (noFallBind    .wasPressed()) noFallEnabled     = !noFallEnabled;
+			if (xrayBind      .wasPressed()) xrayEnabled       = !xrayEnabled;
+			if (freeCamBind   .wasPressed()) freeCamEnabled    = !freeCamEnabled;
+			if (antiEffectBind.wasPressed()) antiEffectEnabled = !antiEffectEnabled;
+			if (antiEffectEnabled) {
+				mc.player.removeStatusEffect(StatusEffects.BLINDNESS);
+				mc.player.removeStatusEffect(StatusEffects.DARKNESS);
+				mc.player.removeStatusEffect(StatusEffects.NAUSEA);
+			}
 			if (fastBind.wasPressed()) {
 				if (faster) {
 					fast = false;
@@ -48,6 +57,7 @@ public abstract class TickMixin extends Entity {
 					fast = true;
 				}
 				slow = false;
+				slower = false;
 			}
 			if (slowBind.wasPressed()) {
 				if (slower) {
@@ -60,6 +70,7 @@ public abstract class TickMixin extends Entity {
 					slow = true;
 				}
 				fast = false;
+				faster = false;
 			}
 			if (fullBrightBind.wasPressed()) {
 				if (fullBrightEnabled) {
@@ -89,7 +100,7 @@ public abstract class TickMixin extends Entity {
 			if (stepEnabled) {
 				this.stepHeight = 1.0f;
 			}
-			if (Main.speedEnabled || Main.flyEnabled) {
+			if (speedEnabled || flyEnabled || freeCamEnabled) {
 				GameOptions go = mc.options;
 				++tick;
 				tick %= 40;
@@ -98,14 +109,13 @@ public abstract class TickMixin extends Entity {
 				boolean boat = false;
 				if (this.hasVehicle()) {
 					entityToMove = this.getVehicle();
-					if (entityToMove.getType() == EntityType.BOAT || entityToMove.getType() == EntityType.CHEST_BOAT) {
+					if (entityToMove == null) entityToMove = this;
+					else if (entityToMove.getType() == EntityType.BOAT || entityToMove.getType() == EntityType.CHEST_BOAT) {
 						// don't move sideways in boat since it turns normally
 						boat = true;
 						faceEntity = entityToMove;
 					}
 				}
-				assert entityToMove != null;
-				assert faceEntity != null;
 				boolean kw = go.forwardKey.isPressed();
 				boolean ka = !boat && go.leftKey.isPressed();
 				boolean ks = go.backKey.isPressed();
@@ -125,13 +135,13 @@ public abstract class TickMixin extends Entity {
 					z = Math.sin(t) * speedH * sprintMul_;
 				}
 				double y = entityToMove.getVelocity().y;
-				if (Main.flyEnabled) {
+				if (flyEnabled || freeCamEnabled) {
 					y = 0;
 					// extra keybinds for ascend and descend since sneak will dismount if we're in a boat
 					if (go.jumpKey.isPressed() || flyAscendBind.isPressed()) y += speedV * sprintMul_;
 					if (go.sneakKey.isPressed() || flyDescendBind.isPressed()) y -= speedV * sprintMul_;
-					if (tick >= 0 && tick < 4) y -= speedB;
-					if (tick >= 4 && tick < 8) y += speedB;
+					if (tick >= 0 && tick < 4) y -= speedB + (y > 0 ? y : 0);
+					if (tick >= 4 && tick < 8) y += speedB + (y > 0 ? y : 0);
 				}
 				entityToMove.setVelocity(new Vec3d(x, y, z));
 			}
