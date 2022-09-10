@@ -19,14 +19,6 @@ import static tech.mekb.mekbhax.Main.*;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class TickMixin extends Entity {
-	private static final double speedH = 0.6;
-	private static final double speedV = 0.5;
-	private static final double speedB = 0.1;
-	private static final double fastMul = 2.0f;
-	private static final double fasterMul = 5.0f;
-	private static final double slowMul = 0.35f;
-	private static final double slowerMul = 0.1f;
-
 	public TickMixin(EntityType<?> type, World world) {
 		super(type, world);
 	}
@@ -47,9 +39,11 @@ public abstract class TickMixin extends Entity {
 				mc.player.removeStatusEffect(StatusEffects.NAUSEA);
 			}
 			if (fastBind.wasPressed()) {
-				if (faster) {
+				if (faster && fast) {
 					fast = false;
 					faster = false;
+				} else if (faster) {
+					fast = true;
 				} else if (fast) {
 					faster = true;
 					fast = false;
@@ -100,7 +94,7 @@ public abstract class TickMixin extends Entity {
 			if (stepEnabled) {
 				this.stepHeight = 1.0f;
 			}
-			if (speedEnabled || flyEnabled || freeCamEnabled) {
+			if (speedEnabled || flyEnabled/* || freeCamEnabled*/) {
 				GameOptions go = mc.options;
 				++tick;
 				tick %= 40;
@@ -124,11 +118,7 @@ public abstract class TickMixin extends Entity {
 				if (ka && kd) ka = kd = false;
 				double x = 0;
 				double z = 0;
-				double sprintMul_ = 1.0;
-				if (fast)   sprintMul_ *= fastMul;
-				if (faster) sprintMul_ *= fasterMul;
-				if (slow)   sprintMul_ *= slowMul;
-				if (slower) sprintMul_ *= slowerMul;
+				double sprintMul_ = getSprintMul();
 				if (kw || ka || ks || kd) {
 					double t = (faceEntity.getYaw() / 180.0 * Math.PI) + Math.atan2(kw?1:ks?-1:0, ka?1:kd?-1:0);
 					x = Math.cos(t) * speedH * sprintMul_;

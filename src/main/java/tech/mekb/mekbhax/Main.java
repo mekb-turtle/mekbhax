@@ -10,6 +10,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Main implements ModInitializer {
+	public static final double speedH = 0.6;
+	public static final double speedV = 0.5;
+	public static final double speedB = 0.1;
+	public static final double fastMul = 2.0f;
+	public static final double fasterMul = 5.0f;
+	public static final double slowMul = 0.35f;
+	public static final double slowerMul = 0.1f;
+	static public double getSprintMul() {
+		double sprintMul_ = 1.0;
+		if (fast)   sprintMul_ *= fastMul;
+		if (faster) sprintMul_ *= fasterMul;
+		if (slow)   sprintMul_ *= slowMul;
+		if (slower) sprintMul_ *= slowerMul;
+		return sprintMul_;
+	}
 	public static boolean flyEnabled        = false;
 	public static boolean speedEnabled      = false;
 	public static boolean noFallEnabled     = false;

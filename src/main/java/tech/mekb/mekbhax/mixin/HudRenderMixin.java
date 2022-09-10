@@ -22,7 +22,13 @@ public class HudRenderMixin {
         int h = r.fontHeight;
         int i = 0;
         // show enabled hacks
-        String speedText = faster ? " (Faster)" : fast ? " (Fast)" : slow ? " (Slow)" : slower ? " (Slower)" : "";
+        String speedText = "";
+        if (faster || fast || slow || slower) {
+            speedText = " (" +
+                    (faster && fast ? "Very Fast" : faster ? "Faster" : fast ? "Fast" :
+                            slow ? "Slow" : slower ? "Slower" : "")
+                    + ", " + getSprintMul() + "x)";
+        }
         if (flyEnabled)
             r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, y+(h++), -1);
         if (speedEnabled)
