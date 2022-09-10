@@ -30,20 +30,20 @@ public class HudRenderMixin {
                     + ", " + getSprintMul() + "x)";
         }
         if (flyEnabled)
-            r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, (i++)*h+y, -1);
         if (speedEnabled)
-            r.drawWithShadow(matrices, "§aSpeed§7"    + speedText, x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aSpeed§7"    + speedText, x, (i++)*h+y, -1);
         if (freeCamEnabled)
-            r.drawWithShadow(matrices, "§aFree-Cam§7" + speedText, x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aFree-Cam§7" + speedText, x, (i++)*h+y, -1);
         if (noFallEnabled)
-            r.drawWithShadow(matrices, "§aNo Fall",                x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aNo Fall",                x, (i++)*h+y, -1);
         if (stepEnabled)
-            r.drawWithShadow(matrices, "§aStep",                   x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aStep",                   x, (i++)*h+y, -1);
         if (xrayEnabled)
-            r.drawWithShadow(matrices, "§aX-Ray",                  x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aX-Ray",                  x, (i++)*h+y, -1);
         if (fullBrightEnabled)
-            r.drawWithShadow(matrices, "§aFull-Bright",            x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aFull-Bright",            x, (i++)*h+y, -1);
         if (antiEffectEnabled)
-            r.drawWithShadow(matrices, "§aAnti-Effect",            x, y+(h++), -1);
+            r.drawWithShadow(matrices, "§aAnti-Effect",            x, (i++)*h+y, -1);
     }
 }
