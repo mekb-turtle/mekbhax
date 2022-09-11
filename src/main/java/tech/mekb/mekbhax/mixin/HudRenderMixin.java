@@ -27,7 +27,7 @@ public class HudRenderMixin {
             speedText = " (" +
                     (faster && fast ? "Very Fast" : faster ? "Faster" : fast ? "Fast" :
                             slow ? "Slow" : slower ? "Slower" : "")
-                    + ", " + getSprintMul() + "x)";
+                    + ", " + ((double)Math.round(getSprintMul() * 10000) / 10000.0) + "x)";
         }
         if (flyEnabled)
             r.drawWithShadow(matrices, "§aFly§7"      + speedText, x, (i++)*h+y, -1);
