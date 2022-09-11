@@ -27,7 +27,10 @@ public abstract class TickMixin extends Entity {
 	private void tick(CallbackInfo info) {
 		try {
 			MinecraftClient mc = MinecraftClient.getInstance();
-			if (flyBind       .wasPressed()) flyEnabled        = !flyEnabled;
+			if (flyBind       .wasPressed()) {
+				flyEnabled = !flyEnabled;
+				if (flyEnabled) noFallEnabled = true;
+			}
 			if (speedBind     .wasPressed()) speedEnabled      = !speedEnabled;
 			if (noFallBind    .wasPressed()) noFallEnabled     = !noFallEnabled;
 			if (xrayBind      .wasPressed()) xrayEnabled       = !xrayEnabled;
@@ -37,6 +40,12 @@ public abstract class TickMixin extends Entity {
 				mc.player.removeStatusEffect(StatusEffects.BLINDNESS);
 				mc.player.removeStatusEffect(StatusEffects.DARKNESS);
 				mc.player.removeStatusEffect(StatusEffects.NAUSEA);
+			}
+			if (xrayBind.wasPressed()) {
+				xrayEnabled = !xrayEnabled;
+				if (xrayEnabled) fullBrightEnabled = true;
+				mc.chunkCullingEnabled = !xrayEnabled;
+				mc.worldRenderer.reload();
 			}
 			if (fastBind.wasPressed()) {
 				if (faster && fast) {

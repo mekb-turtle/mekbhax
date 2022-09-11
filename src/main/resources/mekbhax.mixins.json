@@ -6,11 +6,12 @@
   "mixins": [
   ],
   "client": [
+    "BlockMixin",
     "HudRenderMixin",
     "NoFallPacketMixin",
     "OptionMixin",
     "PacketMixin",
-    "TickMixin",
+    "TickMixin"
   ],
   "injectors": {
     "defaultRequire": 1

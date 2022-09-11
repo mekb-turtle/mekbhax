@@ -2,12 +2,16 @@ package tech.mekb.mekbhax;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class Main implements ModInitializer {
 	public static final double speedH = 0.6;
@@ -43,6 +47,21 @@ public class Main implements ModInitializer {
     public static Vec3d freeCamPos = new Vec3d(0, 0, 0);
 	public static int tick = 0;
 	private static final String bindCategory = "category.mekbhax";
+	public static List<Block> xrayBlocks = List.of(
+			Blocks.SPAWNER,
+			Blocks.NETHERITE_BLOCK,
+			Blocks.DIAMOND_BLOCK,
+			Blocks.DIAMOND_ORE,
+			Blocks.DEEPSLATE_DIAMOND_ORE,
+			Blocks.EMERALD_BLOCK,
+			Blocks.EMERALD_ORE,
+			Blocks.DEEPSLATE_EMERALD_ORE,
+			Blocks.NETHERITE_BLOCK,
+			Blocks.ANCIENT_DEBRIS,
+			Blocks.LAVA,
+			Blocks.WATER,
+			Blocks.OBSIDIAN
+	);
 	public static KeyBinding flyBind        = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fly",        InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G,     bindCategory));
 	public static KeyBinding speedBind      = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.speed",      InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H,     bindCategory));
 	public static KeyBinding freeCamBind    = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.freecam",    InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K,     bindCategory));
