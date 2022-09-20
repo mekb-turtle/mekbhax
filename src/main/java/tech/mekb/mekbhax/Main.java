@@ -31,8 +31,8 @@ public class Main implements ModInitializer {
 	}
 	public static boolean flyEnabled        = false;
 	public static boolean speedEnabled      = false;
-	public static boolean noFallEnabled     = false;
-	public static boolean stepEnabled       = false;
+	public static boolean noFallEnabled     = true;
+	public static boolean stepEnabled       = true;
 	public static boolean xrayEnabled       = false;
     public static boolean fullBrightEnabled = false;
 	public static boolean freeCamEnabled    = false;
@@ -53,6 +53,9 @@ public class Main implements ModInitializer {
 			Blocks.DIAMOND_BLOCK,
 			Blocks.DIAMOND_ORE,
 			Blocks.DEEPSLATE_DIAMOND_ORE,
+			Blocks.IRON_BLOCK,
+			Blocks.IRON_ORE,
+			Blocks.DEEPSLATE_IRON_ORE,
 			Blocks.EMERALD_BLOCK,
 			Blocks.EMERALD_ORE,
 			Blocks.DEEPSLATE_EMERALD_ORE,
@@ -60,7 +63,14 @@ public class Main implements ModInitializer {
 			Blocks.ANCIENT_DEBRIS,
 			Blocks.LAVA,
 			Blocks.WATER,
-			Blocks.OBSIDIAN
+			Blocks.OBSIDIAN,
+			Blocks.MAGMA_BLOCK,
+			Blocks.GLOWSTONE,
+			Blocks.STONE_BRICKS,
+			Blocks.CRACKED_STONE_BRICKS,
+			Blocks.BLACKSTONE,
+			Blocks.POLISHED_BLACKSTONE_BRICKS,
+			Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS
 	);
 	public static KeyBinding flyBind        = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.fly",        InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G,     bindCategory));
 	public static KeyBinding speedBind      = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.mekbhax.speed",      InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H,     bindCategory));
