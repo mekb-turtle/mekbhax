@@ -45,5 +45,9 @@ public class HudRenderMixin {
             r.drawWithShadow(matrices, "§aFull-Bright",            x, (i++)*h+y, -1);
         if (antiEffectEnabled)
             r.drawWithShadow(matrices, "§aAnti-Effect",            x, (i++)*h+y, -1);
+        if (noSlowEnabled)
+            r.drawWithShadow(matrices, "§aNo Slow",                x, (i++)*h+y, -1);
+        if (antiHumanEnabled)
+            r.drawWithShadow(matrices, "§aAnti-Human",             x, (i++)*h+y, -1);
     }
 }

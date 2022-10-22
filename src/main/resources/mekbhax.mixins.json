@@ -8,10 +8,11 @@
   "client": [
     "BlockMixin",
     "HudRenderMixin",
-    "NoFallPacketMixin",
+    "PlayerMovePacketMixin",
     "OptionMixin",
     "PacketMixin",
-    "TickMixin"
+    "TickMixin",
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
