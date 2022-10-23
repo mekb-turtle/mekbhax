@@ -13,7 +13,7 @@ public class ClientPlayerEntityMixin {
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
     private void slowDown(CallbackInfoReturnable<Boolean> cir) {
         if (noSlowEnabled) {
-            cir.setReturnValue(true);
+            cir.setReturnValue(false);
         }
     }
 }
